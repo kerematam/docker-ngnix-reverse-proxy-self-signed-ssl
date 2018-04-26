@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - certs:/etc/nginx/certs:ro
+    privileged: true
+  
+  whoami:
+    image: jwilder/whoami
+    environment:
+      - VIRTUAL_HOST=localhost
+#      - VIRTUAL_PORT=443
+#      - VIRTUAL_PROTO=https
+
+  create-self-signed-cert:
+  #  image: kerematam/create-self-signed-cert:latest
+    build: create-self-signed-cert/
+    environment :
+      - CREATE_SS_CERT_FOR=localhost
+    volumes:
+      - certs:/etc/ssl/certs
+
+volumes:
+   certs:
