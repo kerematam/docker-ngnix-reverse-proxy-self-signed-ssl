@@ -1,2 +1,2 @@
-#curl -k  https://10.0.26.3
+#!/bin/bash
 curl -k  https://localhost
